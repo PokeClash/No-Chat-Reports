@@ -22,15 +22,16 @@ public class MixinServerboundChatSessionUpdatePacket {
 
 	@Inject(method = "handle", at = @At("HEAD"), cancellable = true)
 	private void onHandle(ServerGamePacketListener listener, CallbackInfo info) {
-		var impl = (ServerGamePacketListenerImpl) listener;
+		if (listener instanceof ServerGamePacketListenerImpl) {
+			var impl = (ServerGamePacketListenerImpl) listener;
 
-		if (!impl.getPlayer().getServer().isSingleplayerOwner(impl.getPlayer().getGameProfile())) {
-			if (NCRConfig.getCommon().demandOnClient()) {
-				impl.disconnect(Component.literal(NCRConfig.getCommon().demandOnClientMessage()));
+			if (!impl.getPlayer().getServer().isSingleplayerOwner(impl.getPlayer().getGameProfile())) {
+				if (NCRConfig.getCommon().demandOnClient()) {
+					impl.disconnect(Component.literal(NCRConfig.getCommon().demandOnClientMessage()));
+				}
 			}
+
+			info.cancel();
 		}
-
-		info.cancel();
 	}
-
 }

@@ -86,7 +86,7 @@ dependencies {
 	modImplementation include(fabricApi.module("fabric-resource-loader-v0", project.fabric_version))
 }
 
-sourceSets.remove(sourceSets.test)
+//sourceSets.remove(sourceSets.test)
 
 processResources {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
